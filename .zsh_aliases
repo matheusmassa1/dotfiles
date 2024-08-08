@@ -9,5 +9,6 @@ alias emacs-start='emacs --daemon && emacsclient -c -n'
 # Utils
 alias k="kill -9"
 alias ll="ls -l"
+alias lla="ls -la"
 
 source $HOME/.nubank_aliases 2> /dev/null
