@@ -8,7 +8,7 @@ source $ZSH/oh-my-zsh.sh
 
 [[ -s ~/.zsh_aliases ]] && source ~/.zsh_aliases
 [[ -s ~/.nubank_config ]] && source ~/.nubank_config
-
+[[ -s ~/.lab_config ]] && source ~/.lab_config
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
