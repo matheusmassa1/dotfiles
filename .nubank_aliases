@@ -5,4 +5,5 @@ alias grt-data="nu-data auth get-refresh-token --env prod && nu-data auth get-ac
 alias grt-ist="nu-data auth get-refresh-token --env prod && nu-data auth get-access-token --env prod"
 alias grt-staging="nu auth get-refresh-token --env staging && nu auth r --env staging"
 alias work-work-br="nu aws shared-role-credentials refresh --account-alias=br"
+alias codeartifact-pypi="nu aws shared-role-credentials refresh --account-alias=br && nu codeartifact login pypi"
 alias codeartifact-maven="nu aws shared-role-credentials refresh --account-alias=br && nu codeartifact login maven"
