@@ -75,29 +75,20 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Start maximized
+;; Start Maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; Set localleader key to ,
+;; Set localleader to ,
 (setq doom-localleader-key ",")
 
-;; Set Nubank's project
+;; Some configs to work on
 (setq read-process-output-max (* 1024 1024)
        ;; doom-font (font-spec :family "Fira Code" :size 14) which would help you to change the font and size.
        projectile-project-search-path '("~/dev/nu")
        projectile-enable-caching nil)
 
-;; Nubank's custom tools
 (use-package! lsp-mode
-  :commands lsp
-  :config
-  (setq lsp-semantic-tokens-enable t)
-  (add-hook 'lsp-after-apply-edits-hook (lambda (&rest _) (save-buffer)))) ;; save buffers after renaming
-  (let ((nudev-emacs-path "~/dev/nu/nudev/ides/emacs/"))
-  (when (file-directory-p nudev-emacs-path)
-    (add-to-list 'load-path nudev-emacs-path)
-    (require 'nu nil t)))(use-package! lsp-mode
   :commands lsp
   :config
   (setq lsp-semantic-tokens-enable t)
@@ -108,11 +99,16 @@
     (require 'nu nil t)))
 
 ;; Copilot config
-;; accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(closure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
