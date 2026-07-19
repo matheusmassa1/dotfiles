@@ -1,0 +1,14 @@
+# editor
+export EDITOR=vim
+export VISUAL="code --wait"
+
+# keybindings
+bindkey '^I' complete-word
+bindkey '^[[Z' autosuggest-accept
+
+# aliases
+alias dotfiles='cd ~/.dotfiles'
+alias k="kill -9"
+alias ll="ls -l"
+alias lla="ls -la"
+alias cat='batcat --paging=never'
