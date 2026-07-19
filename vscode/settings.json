@@ -1,0 +1,69 @@
+{
+  "editor.lineNumbers": "relative",                    // Relative line numbers (Vim-style)
+  "editor.scrollBeyondLastLine": false,                // Don't scroll past end of file
+  "editor.cursorSurroundingLines": 8,                  // Keep 8 lines above/below cursor (matches LazyVim scrolloff)
+  "editor.smoothScrolling": true,                      // Smooth scrolling animations
+  "editor.bracketPairColorization.enabled": true,      // Colour matching brackets
+  "editor.guides.bracketPairs": true,                  // Show bracket pair guides
+  "editor.minimap.enabled": false,                     // Minimap disabled (unreliable, re-enable if needed)
+  "editor.cursorBlinking": "solid",                    // Solid cursor (Vim-like)
+  "editor.formatOnSave": false,                        // Format on save (set to true if desired)
+  "chat.disableAIFeatures": true,                      // Disable ai features
+  "workbench.sideBar.location": "right",                // Place main sidebar in right position
+  "keyboard.dispatch": "keyCode",
+  // haskell
+  "haskell.manageHLS": "GHCup",
+  // clojure
+  "[clojure]": {
+      "editor.parameterHints.enabled": true
+  },
+  //calva
+  "calva.redirectServerOutputToRepl": true,
+  "calva.outputDestinations": {
+      "evalResults": "repl-window",
+      "evalOutput": "repl-window",
+      "otherOutput": "repl-window"
+  },
+  //vim extension settings
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.ignorecase": true,
+  "vim.smartcase": true,
+  "vim.useSystemClipboard": true,
+  "vim.surround": true,
+  "vim.leader": "<space>",
+  "vim.insertModeKeyBindings": [
+      { "before": ["j", "k"], "after": ["<Esc>"] },
+      { "before": ["<C-s>"], "commands": [":w"] }
+  ],
+  "vim.normalModeKeyBindings": [
+      { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
+      { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
+      { "before": ["K"], "commands": ["editor.action.showHover"] },
+      { "before": ["[", "d"], "commands": ["editor.action.marker.prev"] },
+      { "before": ["]", "d"], "commands": ["editor.action.marker.next"] },
+      // buffer mgmnt
+      {"before": ["<tab>"], "commands": ["workbench.action.nextEditor"]},
+      {"before": ["<S-tab>"], "commands": ["workbench.action.previousEditor"]},
+      // splitting windows
+      { "before": ["<leader>", "v"], "commands": ["workbench.action.splitEditorRight"] },
+      { "before": ["<leader>", "h"], "commands": ["workbench.action.splitEditorDown"] },
+  ],
+  "vim.visualModeKeyBindings": [
+      { "before": [">"], "after": [">", "g", "v"] },
+      { "before": ["<"], "after": ["<", "g", "v"] }
+  ],
+  "vim.handleKeys": {
+      "<C-a>": false,
+      "<C-f>": false,
+      "<C-w>": false,
+      "<C-c>": false,
+      "<C-v>": false,
+      "<C-x>": false,
+      "<C-z>": false,
+      "<C-y>": false
+  },
+  "extensions.experimental.affinity": {
+      "vscodevim.vim": 1
+  }
+}
