@@ -9,5 +9,14 @@
     "key": "shift+tab",
     "command": "workbench.action.previousEditor",
     "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "escape",
+    "command": "-calva.clearInlineResults"
+  },
+  {
+    "key": "shift+escape",
+    "command": "calva.clearInlineResults",
+    "when": "editorTextFocus && editorLangId == 'clojure'"
   }
 ]

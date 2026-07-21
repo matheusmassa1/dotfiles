@@ -48,6 +48,14 @@
       // splitting windows
       { "before": ["<leader>", "v"], "commands": ["workbench.action.splitEditorRight"] },
       { "before": ["<leader>", "h"], "commands": ["workbench.action.splitEditorDown"] },
+      // calva specific
+      { "before": ["<leader>", "e", "e"], "commands": ["calva.evaluateSelection"] },
+      { "before": ["<leader>", "e", "f"], "commands": ["calva.evaluateCurrentTopLevelForm"] },
+      { "before": ["<leader>", "e", "b"], "commands": ["calva.loadFile"] },
+      { "before": ["<leader>", "e", "n"], "commands": ["calva.loadNamespace"] },
+      { "before": ["<leader>", "c", "j"], "commands": ["calva.jackIn"] },
+      { "before": ["<leader>", "c", "q"], "commands": ["calva.disconnect"] },
+      { "before": ["<leader>", "e", "c"], "commands": ["calva.clearInlineResults"] } 
   ],
   "vim.visualModeKeyBindings": [
       { "before": [">"], "after": [">", "g", "v"] },
@@ -66,5 +74,5 @@
   "extensions.experimental.affinity": {
       "vscodevim.vim": 1
 },
-"workbench.colorTheme": "Light+"
+"workbench.colorTheme": "Quiet Light"
 }
