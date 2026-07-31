@@ -45,7 +45,8 @@
       // buffer mgmnt
       {"before": ["<tab>"], "commands": ["workbench.action.nextEditor"]},
       {"before": ["<S-tab>"], "commands": ["workbench.action.previousEditor"]},
-      // splitting windows
+      // handle with windows/tabs
+      {"before": ["<leader>", "x"], "commands": ["workbench.action.closeActiveEditor"]},
       { "before": ["<leader>", "v"], "commands": ["workbench.action.splitEditorRight"] },
       { "before": ["<leader>", "h"], "commands": ["workbench.action.splitEditorDown"] },
       // calva specific
@@ -55,7 +56,10 @@
       { "before": ["<leader>", "e", "n"], "commands": ["calva.loadNamespace"] },
       { "before": ["<leader>", "c", "j"], "commands": ["calva.jackIn"] },
       { "before": ["<leader>", "c", "q"], "commands": ["calva.disconnect"] },
-      { "before": ["<leader>", "e", "c"], "commands": ["calva.clearInlineResults"] } 
+      { "before": ["<leader>", "e", "c"], "commands": ["calva.clearInlineResults"] },
+      { "before": ["<leader>", "t", "t"], "commands": ["calva.runTestUnderCursor"] },
+      { "before": ["<leader>", "t", "a"], "commands": ["calva.runAllTests"] },
+      { "before": ["<leader>", "t", "n"], "commands": ["calva.runNamespaceTests"] } 
   ],
   "vim.visualModeKeyBindings": [
       { "before": [">"], "after": [">", "g", "v"] },
