@@ -9,5 +9,21 @@
     "key": "shift+tab",
     "command": "workbench.action.previousEditor",
     "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  // Fix: Calva/Paredit steals Backspace during Vim / and : input,
+  // which deletes file text instead of the search/command string.
+  {
+    "key": "backspace",
+    "command": "-paredit.deleteBackward"
+  },
+  {
+    "key": "backspace",
+    "command": "paredit.deleteBackward",
+    "when": "calva:keybindingsEnabled && editorTextFocus && !calva:cursorInComment && !editorHasMultipleSelections && !editorReadOnly && editorLangId == 'clojure' && paredit:keyMap == 'strict' && vim.mode == 'Insert'"
+  },
+  {
+    "key": "backspace",
+    "command": "extension.vim_backspace",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && (vim.mode == 'SearchInProgressMode' || vim.mode == 'CommandlineInProgress')"
   }
 ]
