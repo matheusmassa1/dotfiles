@@ -1,5 +1,13 @@
 // Place your key bindings in this file to override the defaults
 [
+  // Bind ";" here (not via vim.*) so the key is consumed as a shortcut.
+  // A vim remap races ";" into whichkey's QuickPick → "; is undefined" → menu closes,
+  // which feels like you need to press ";" twice.
+  {
+    "key": ";",
+    "command": "whichkey.show",
+    "when": "editorTextFocus && vim.active && !whichkeyVisible && (vim.mode == 'Normal' || vim.mode == 'Visual' || vim.mode == 'VisualBlock' || vim.mode == 'VisualLine')"
+  },
   {
     "key": "tab",
     "command": "workbench.action.nextEditor",

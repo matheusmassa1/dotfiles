@@ -1,4 +1,5 @@
 {
+  "workbench.experimental.modernUI": false,
   "editor.lineNumbers": "relative",                    // Relative line numbers (Vim-style)
   "editor.scrollBeyondLastLine": false,                // Don't scroll past end of file
   "editor.cursorSurroundingLines": 8,                  // Keep 8 lines above/below cursor (matches LazyVim scrolloff)
@@ -65,6 +66,8 @@
       { "before": [">"], "after": [">", "g", "v"] },
       { "before": ["<"], "after": ["<", "g", "v"] }
   ],
+  // whichkey trigger lives in keybindings.json (not here) so ";"
+  // is consumed as a shortcut and does not leak into the QuickPick.
   "vim.handleKeys": {
       "<C-a>": false,
       "<C-f>": false,
@@ -77,6 +80,108 @@
   },
   "extensions.experimental.affinity": {
       "vscodevim.vim": 1
-},
-"workbench.colorTheme": "Quiet Light"
+  },
+  "workbench.colorTheme": "Quiet Light",
+  // whichkey: mirror vim <leader> bindings (overrides default e/t/x/v menus)
+  "whichkey.bindingOverrides": [
+    {
+      "keys": "x",
+      "name": "Close editor",
+      "type": "command",
+      "command": "workbench.action.closeActiveEditor"
+    },
+    {
+      "keys": "v",
+      "name": "Split editor right",
+      "type": "command",
+      "command": "workbench.action.splitEditorRight"
+    },
+    {
+      "keys": "h",
+      "name": "Split editor down",
+      "type": "command",
+      "command": "workbench.action.splitEditorDown"
+    },
+    {
+      "keys": "e",
+      "name": "+Eval",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "e",
+          "name": "Evaluate selection",
+          "type": "command",
+          "command": "calva.evaluateSelection"
+        },
+        {
+          "key": "f",
+          "name": "Evaluate top-level form",
+          "type": "command",
+          "command": "calva.evaluateCurrentTopLevelForm"
+        },
+        {
+          "key": "b",
+          "name": "Load file",
+          "type": "command",
+          "command": "calva.loadFile"
+        },
+        {
+          "key": "n",
+          "name": "Load namespace",
+          "type": "command",
+          "command": "calva.loadNamespace"
+        },
+        {
+          "key": "c",
+          "name": "Clear inline results",
+          "type": "command",
+          "command": "calva.clearInlineResults"
+        }
+      ]
+    },
+    {
+      "keys": "c",
+      "name": "+Calva",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "j",
+          "name": "Jack-in",
+          "type": "command",
+          "command": "calva.jackIn"
+        },
+        {
+          "key": "q",
+          "name": "Disconnect",
+          "type": "command",
+          "command": "calva.disconnect"
+        }
+      ]
+    },
+    {
+      "keys": "t",
+      "name": "+Test",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "t",
+          "name": "Run test under cursor",
+          "type": "command",
+          "command": "calva.runTestUnderCursor"
+        },
+        {
+          "key": "a",
+          "name": "Run all tests",
+          "type": "command",
+          "command": "calva.runAllTests"
+        },
+        {
+          "key": "n",
+          "name": "Run namespace tests",
+          "type": "command",
+          "command": "calva.runNamespaceTests"
+        }
+      ]
+    }
+  ]
 }
