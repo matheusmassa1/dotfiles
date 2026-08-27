@@ -22,3 +22,9 @@
                        (not (eolp)))
                   (save-excursion (forward-char) (apply orig args))
                 (apply orig args))))
+
+;; floating popup for docstrings
+(prelude-require-package 'eldoc-box)
+(add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode)
+
+(provide 'personal)
