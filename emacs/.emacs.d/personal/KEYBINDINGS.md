@@ -1,7 +1,8 @@
 # Keybindings cheat sheet
 
 Personal reference for this Emacs setup: **Prelude** + **evil-mode** + **CIDER**
-+ **smartparens-strict** + **vertico/consult/embark** + **corfu**.
++ **Sly** + **python-ts-mode/Eglot** + **smartparens-strict** +
+**vertico/consult/embark** + **corfu**.
 
 Everything below was verified against the packages actually installed in
 `~/.emacs.d/elpa`, not against generic documentation. Notably CIDER is on the
@@ -107,6 +108,210 @@ and prompts with completion over all loaded namespaces. The REPL also accepts
 | `C-c C-t` | Test menu |
 | `C-c C-t t` | Run the test at point |
 | `C-c C-t n` | Run all tests in the namespace |
+
+---
+
+## Common Lisp / Sly
+
+`personal.el` installs Sly with `inferior-lisp-program` set to `sbcl`
+(`/usr/bin/sbcl`). Sly hangs everything off the `C-c` prefix inside `.lisp`
+buffers, so `C-c` + pause shows the whole map via which-key.
+
+### Starting and reaching the REPL
+
+| Key | Action |
+|---|---|
+| `M-x sly` | Start SBCL and open the REPL |
+| `C-c C-z` | Jump to the REPL (`sly-mrepl`) |
+| `C-c ~` | Sync the REPL's package **and** directory to this buffer |
+| `C-c C-x c` | List connections (`C-c C-x n` / `C-c C-x p` cycle them) |
+
+### The eval loop
+
+| Key | Action |
+|---|---|
+| `C-x C-e` | Eval the form before point |
+| `C-M-x` | Eval the top-level form around point |
+| `C-c C-c` | **Compile** the top-level form — this is the one to use, it gives compiler notes |
+| `C-c C-k` | Compile and load the whole file |
+| `C-c C-l` | Load the file (no compile) |
+| `C-c C-r` | Eval the region |
+| `C-c C-p` | Eval the form before point and pretty-print the result in a popup |
+| `C-c C-e` or `C-c :` | Prompt for a form and eval it in the REPL's package |
+| `C-c C-b` | Interrupt the running evaluation |
+| `C-c C-u` | Undefine the function at point |
+
+**Note for evil users:** `personal.el` advises `sly-eval-last-expression` to
+step point forward one char in normal state, so `C-x C-e` with the block cursor
+sitting on the closing `)` evaluates that form instead of the one before it.
+The advice is on `sly-eval-last-expression` only — `C-M-x` and `C-c C-c` work on
+the enclosing form and never needed it.
+
+### Compiler notes
+
+Compiling with `C-c C-c` / `C-c C-k` underlines warnings in place.
+
+| Key | Action |
+|---|---|
+| `M-n` / `M-p` | Next / previous compiler note |
+| `C-c M-c` | Clear the notes |
+
+### Navigation and docs
+
+| Key | Action |
+|---|---|
+| `M-.` / `M-,` | Jump to definition / jump back |
+| `C-c C-d C-d` | Describe the symbol at point |
+| `C-c C-d C-f` | Describe the function |
+| `C-c C-d C-h` | Look it up in the HyperSpec |
+| `C-c C-d C-a` | Apropos search (`C-c C-d C-p` limits it to one package) |
+| `C-c C-d ~` | HyperSpec entry for a `format` directive |
+| `C-c C-m` | Macroexpand once (`C-c M-m` expands all) |
+| `C-c I` | Inspect the value of a form |
+| `C-c C-t` | Toggle tracing of the function at point |
+| `C-c <` / `C-c >` | List callers / callees |
+| `C-c C-w C-c` | Who calls this? (`C-r` references, `C-m` macroexpands, `C-b` binds, `C-s` sets) |
+
+### In the REPL
+
+| Key | Action |
+|---|---|
+| `RET` | Send the input |
+| `M-p` / `M-n` | Previous / next input from history |
+| `,` | REPL shortcut menu — `cd`, `in-package`, `restart lisp`, `sayoonara` |
+| `C-c C-o` | Clear the most recent output |
+| `C-c M-o` | Clear the whole REPL |
+| `C-c C-c` or `C-c C-b` | Interrupt |
+| `TAB` | Indent, or complete the symbol |
+
+`,` is the one worth internalizing: `,restart lisp` gives you a clean image
+without leaving Emacs, and `,in-package` beats typing `(in-package :foo)`.
+
+### The debugger (sly-db)
+
+Any unhandled condition drops you into a backtrace buffer. It is a normal
+buffer — read it, don't panic-quit it.
+
+| Key | Action |
+|---|---|
+| `0`–`9` | Invoke that numbered restart |
+| `a` or `q` | Abort to top level |
+| `c` | Continue |
+| `n` / `p` | Next / previous frame |
+| `RET` or `t` | Toggle details for the frame at point |
+| `v` | Show the frame's source |
+| `e` | Eval a form **in that frame's lexical context** |
+| `d` | Same, pretty-printed |
+| `i` | Inspect a value in the frame's context |
+| `s` / `x` / `o` | Step into / over / out |
+| `r` | Restart the frame |
+| `R` | Return a value from the frame |
+| `C` | Inspect the signalled condition |
+
+`e` on a frame is the reason to stay in the debugger instead of aborting: you
+get a REPL with the failing function's locals in scope.
+
+### In the inspector
+
+| Key | Action |
+|---|---|
+| `RET` | Inspect the part at point |
+| `l` / `n` | Back / forward through the inspection history |
+| `e` | Eval a form with `*` bound to the inspected object |
+| `g` | Re-inspect (refresh after a change) |
+| `q` | Quit |
+
+Sly's selector (`sly-selector`, the quick jump to REPL / notes / connections)
+is **not** bound by default in this version — the old `C-c C-s` binding is
+commented out upstream. Bind it yourself if you want it:
+`(global-set-key (kbd "C-z") sly-selector-map)`.
+
+---
+
+## Python
+
+`prelude-python` uses `python-ts-mode` when the tree-sitter grammar is present
+and calls `prelude-lsp-enable`, which for this config means **Eglot**
+(`prelude-lsp-client` defaults to `eglot`). Diagnostics reach Flycheck through
+`flycheck-eglot`.
+
+> No Python language server is on `PATH` right now (no `pylsp`, `pyright`,
+> `ruff`, `jedi-language-server`), so Eglot will prompt for a command when you
+> open a `.py` file. Install one — `pipx install python-lsp-server` or
+> `pipx install pyright` — and the LSP keys below start working.
+
+### The REPL loop
+
+| Key | Action |
+|---|---|
+| `C-c C-p` | Start an inferior Python (`run-python`) |
+| `C-c C-z` | Switch to the Python shell |
+| `C-c C-c` | Send the whole buffer |
+| `C-c C-e` | Send the statement at point |
+| `C-c C-b` | Send the enclosing block |
+| `C-c C-r` | Send the region |
+| `C-M-x` | Send the def or class at point |
+| `C-c C-s` | Prompt for a string and send it |
+
+`C-c C-e` (statement) is the everyday key — the direct analogue of `C-c C-e` in
+CIDER or `C-x C-e` in Sly. It sends the whole logical statement, so it works
+on a multi-line call without selecting anything.
+
+In the Python shell: `M-p` / `M-n` walk the history, `C-c C-c` interrupts,
+`C-d` exits.
+
+### LSP (Eglot)
+
+| Key | Action |
+|---|---|
+| `M-.` / `M-,` | Jump to definition / jump back |
+| `M-?` | Find references |
+| `C-c C-l r` | Rename the symbol project-wide |
+| `C-c C-l e` | Code actions at point |
+| `C-c C-l f` | Format the buffer |
+| `C-c C-l o` | Organize imports |
+| `C-c C-d` | Describe the thing at point (`C-c C-f` for a one-line eldoc) |
+
+### Errors
+
+| Key | Action |
+|---|---|
+| `C-c ! l` | List all errors in the buffer |
+| `C-c ! n` / `C-c ! p` | Next / previous error |
+| `C-c ! e` | Explain the error at point |
+| `C-c ! c` | Re-check the buffer |
+| `C-c C-v` | `python-check` — run flake8/pylint over the file as a compilation |
+
+### Imports and skeletons
+
+| Key | Action |
+|---|---|
+| `C-c C-i a` | Add an import for the symbol at point |
+| `C-c C-i f` | Add imports for every unresolved name in the buffer |
+| `C-c C-i r` | Remove an import |
+| `C-c C-i s` | Sort the imports |
+| `C-c C-t d` / `c` / `i` / `f` / `w` / `t` / `m` | Insert a def / class / if / for / while / try / import skeleton |
+
+`C-c C-i f` is the payoff key: write the code first, then let it resolve the
+imports in one pass.
+
+### Indentation and movement
+
+| Key | Action |
+|---|---|
+| `TAB` | Cycle this line through the plausible indentation levels |
+| `<backspace>` | Dedent one level (instead of deleting one char) |
+| `C-c <` / `C-c >` | Shift the region left / right |
+| `M-a` / `M-e` | Previous / next block (remapped from sentence motions) |
+| `C-M-a` / `C-M-e` | Previous / next def or class |
+| `C-M-u` | Move out to the enclosing block |
+| `C-c C-j` | imenu — jump to a def or class in this file |
+
+`prelude-python` sets a **flat** imenu index, so `C-c C-j` and `M-g i` list
+`Foo.bar` rather than making you descend into `Foo` first.
+
+Note that `smartparens-strict-mode` is *not* on here — it is enabled by
+`prelude-lisp-coding-hook` only. Evil's `dd` and `x` behave normally in Python.
 
 ---
 
@@ -324,3 +529,10 @@ with CIDER connected, that's live Clojure docs inline.
 - `M-y` is claimed by `browse-kill-ring` in core and `consult-yank-pop` in the
   vertico module. Modules load after core, so consult wins; `s-y` still gives
   you `browse-kill-ring`.
+- `C-c I` opens the init file globally, but in a `.lisp` buffer Sly's prefix
+  map shadows it with `sly-inspect`. Use `M-x prelude-find-user-init-file`.
+- `C-c C-l` is `python-shell-send-file` in `python-mode`, but the Eglot map is
+  a minor-mode map and wins, so with a server running it becomes the
+  `C-c C-l r/e/f/o` prefix. Send the file with `M-x python-shell-send-file`.
+- `C-c C-c` means three different things by mode: compile the top-level form
+  in Sly, eval the top-level form in CIDER, send the whole buffer in Python.
