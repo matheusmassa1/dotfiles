@@ -28,7 +28,7 @@
 (add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode)
 (add-hook 'eldoc-box-hover-at-point-mode-hook
           (lambda ()
-            (when eldoc-box-hover-at-point
+            (when eldoc-box-hover-at-point-mode
               (setq-local eldoc-display-functions
                           (remq 'eldoc-display-in-buffer
                                 eldoc-display-functions)))))
