@@ -26,6 +26,22 @@
 ;; floating popup for docstrings
 (prelude-require-package 'eldoc-box)
 (add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode)
+(add-hook 'eldoc-box-hover-at-point-mode-hook
+          (lambda ()
+            (when eldoc-box-hover-at-point
+              (setq-local eldoc-display-functions
+                          (remq 'eldoc-display-in-buffer
+                                eldoc-display-functions)))))
+
+
+;; clj-kondo
+(use-package flycheck-clj-kondo
+  :ensure t)
+
+(use-package clojure-mode
+  :ensure t
+  :config
+  (require 'flycheck-clj-kondo))
 
 ;; Evil binds M-. to evil-repeat-pop-next in normal state, and evil's state maps
 ;; outrank mode maps, so xref/sly/cider/eglot never see the key. nil = undefined
