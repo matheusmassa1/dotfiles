@@ -33,5 +33,5 @@
 (with-eval-after-load 'evil
   (define-key evil-normal-state-map (kbd "M-.") nil))
 
-(provide 'personal
+(provide 'personal)
 ;;; personal.el ends here
