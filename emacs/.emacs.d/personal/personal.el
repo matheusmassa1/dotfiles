@@ -27,4 +27,11 @@
 (prelude-require-package 'eldoc-box)
 (add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode)
 
-(provide 'personal)
+;; Evil binds M-. to evil-repeat-pop-next in normal state, and evil's state maps
+;; outrank mode maps, so xref/sly/cider/eglot never see the key. nil = undefined
+;; here, so lookup falls through to whatever the buffer actually provides.
+(with-eval-after-load 'evil
+  (define-key evil-normal-state-map (kbd "M-.") nil))
+
+(provide 'personal
+;;; personal.el ends here
