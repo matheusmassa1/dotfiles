@@ -55,5 +55,26 @@
 (with-eval-after-load 'evil
   (define-key evil-normal-state-map (kbd "M-.") nil))
 
+(use-package uv-mode
+  :hook (python-mode . uv-mode-auto-activate-hook))
+
+;; Treemacs keeps its own workspace of projects and knows nothing about the
+;; project projectile just switched to, so a fresh workspace renders empty.
+;; treemacs-project-follow-mode keeps the workspace pointed at the current
+;; project instead of requiring projects to be added by hand.
+(use-package treemacs
+  :ensure t
+  :bind ("C-c T" . treemacs)
+  :config
+  (treemacs-project-follow-mode 1))
+
+(use-package treemacs-projectile
+  :ensure t
+  :after (treemacs projectile))
+
+(use-package treemacs-evil
+  :ensure t
+  :after (treemacs evil))
+
 (provide 'personal)
 ;;; personal.el ends here
