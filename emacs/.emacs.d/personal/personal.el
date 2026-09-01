@@ -25,7 +25,13 @@
 
 ;; floating popup for docstrings
 (prelude-require-package 'eldoc-box)
-(add-hook 'prog-mode-hook #'eldoc-box-hover-at-point-mode)
+;; Guard the hook: prelude-require-package installs but doesn't require, so a
+;; half-installed eldoc-box leaves this function void. An erroring prog-mode-hook
+;; then breaks byte-compilation of every package installed afterwards.
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (when (fboundp 'eldoc-box-hover-at-point-mode)
+              (eldoc-box-hover-at-point-mode 1))))
 (add-hook 'eldoc-box-hover-at-point-mode-hook
           (lambda ()
             (when eldoc-box-hover-at-point-mode
